@@ -1,5 +1,5 @@
-import * as Tone from 'tone'
 import { useState, useEffect, useRef } from 'react'
+import * as Tone from 'tone'
 
 import kick from "assets/sounds/Kick.wav"
 import clap from "assets/sounds/Clap.wav"
@@ -16,10 +16,10 @@ export default function useSounds () {
 
   useEffect(() => {
     const sampler = new Tone.Sampler({
-      "C4": kick,
+      C4: kick,
       "D#4": clap,
       "F#4": hh,
-      "A4": casta,
+      A4: casta,
     }).toDestination()
 
     Tone.loaded().then(() => {
@@ -66,22 +66,39 @@ export default function useSounds () {
     }
   }, [])
 
+  function handleSampleChange (note, file) {
+    let fileURL = URL.createObjectURL(file)
+    let buffer = new Tone.Buffer(fileURL)
+
+    mySampler.current.add(note, buffer, () => {
+      alert("Sample successfully changed")
+    })
+  }
+
   const buttonsList = [
     {
       soundPlay: () => soundPlay("C4"),
-      isPlayed: isKickPlayed
+      isPlayed: isKickPlayed,
+      id: "kick",
+      handleSampleChange: (event) => handleSampleChange("C4", event.target.files[0])
     },
     {
       soundPlay: () => soundPlay("D#4"),
-      isPlayed: isClaplayed
+      isPlayed: isClaplayed,
+      id: "clap",
+      handleSampleChange: (event) => handleSampleChange("D#4", event.target.files[1])
     },
     {
       soundPlay: () => soundPlay("F#4"),
-      isPlayed: isHhPlayed
+      isPlayed: isHhPlayed,
+      id: "hh",
+      handleSampleChange: (event) => handleSampleChange("F#4", event.target.files[2])
     },
     {
       soundPlay: () => soundPlay("A4"),
-      isPlayed: isCastaPlayed
+      isPlayed: isCastaPlayed,
+      id: "casta",
+      handleSampleChange: (event) => handleSampleChange("A4", event.target.files[3])
     }
   ]
 
