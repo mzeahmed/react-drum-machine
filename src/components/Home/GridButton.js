@@ -1,10 +1,8 @@
 import styled from 'styled-components'
 
 export default function GridButton ({ isPlayed = false, soundPlay }) {
-  return (
-    <Wrapper isPlayed={isPlayed} onClick={soundPlay}>
-    </Wrapper>
-  )
+  return <Wrapper isPlayed={isPlayed} onClick={soundPlay}/>
+
 }
 
 const Wrapper = styled.div`
